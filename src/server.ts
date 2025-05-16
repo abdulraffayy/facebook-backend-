@@ -1,20 +1,23 @@
-import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+dotenv.config(); // MUST come before accessing env vars
 
-dotenv.config();
+import express from 'express';
+import connectDB from './connectdb/db';
 
-const app: Express = express();
-const port = process.env.PORT || 5000;
+console.log('MONGO_URI:', process.env.MONGO_URI); 
 
-// Middleware
+const app = express();
+const port = process.env.PORT || 7000;
+
+connectDB();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Welcome to Facebook Backend API' });
 });
 
-
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-}); 
+  console.log(`🚀 Server running on port ${port}`);
+});
